@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Sample Tab Example</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.5.8/angular.min.js"></script>
+    <style>
+      body {
+        margin:0 auto;
+        font-family:"Comic Sans MS", cursive, sans-serif;
+      }
+      .app-controller {
+        margin:0 auto;
+        //border: 1px solid gray;
+        width: 600px;
+      }
+      ul {
+          list-style-type: none;
+          margin: 0;
+          padding: 0;
+      }
+
+      li {
+          display: inline;
+          padding:0 15px 25px 15px;
+          border-bottom: 3px solid gray;
+        transition: 0.5s ease;
+      }
+
+      a {
+          color:inherit;
+          text-decoration: none;
+      }
+
+      section {
+        margin:0 auto;
+        margin-top:40px;
+        
+      }
+      .content {
+        display: inline;
+        width:400px !important;
+        font-family:"Lucida Sans Unicode", "Lucida Grande", sans-serif;
+        font-size:14px;
+      }
+
+      li.viewItem {
+        border-bottom: 3px solid #F08080;
+        background-color:#77EDF4;
+        transition: 0.5s ease;
+        color:#5D6D7E;
+      }
+    </style>
+
+  </head>
+  <body ng-app="tabExample">
+  <div class="app-controller" ng-controller="tabExampleController">
+    <ul>
+      <li ng-repeat="item in options track by $index" ng-click="viewItem($index)" ng-class="{viewItem:item.view}"><a href="#{{item.name}}">{{item.name}}</a></li>
+    </ul>
+      <section>
+        <div class="content" ng-repeat="item in options" id="#{{item.name}}" ng-show="item.view">
+          {{item.content}}
+        </div>
+      </section>
+  </div>
+
+   
+    <script>
+      angular.module('tabExample', [])
+    .controller('tabExampleController', ['$scope', function($scope) {
+      $scope.options = [{"name":"Orange","content":"Its orange"},{"name":"Apple","content":"Its apple"},{"name":"Banana","content":"Its banana"},{"name":"Mango","content":"Its mango"}];
+      
+      let initialTab = $scope.options[0];
+      initialTab.view = true;
+      $scope.viewItem = function($index) {
+        var values = $scope.options;
+        angular.forEach(values, function(value, key) {
+          value.view = false;
+        });
+        var itemShown = $scope.options[$index];
+        itemShown.view = true;
+      };
+    }])
+    </script>
+
+  </body>
+</html>
+
